@@ -1,0 +1,5 @@
+Application is now polling for GCP metadata events.
+Once it receives a termination notice:
+  - it will have at 30 seconds to terminate itself
+
+And hopefully, kloudlite nodepool job will replace that node with a new one

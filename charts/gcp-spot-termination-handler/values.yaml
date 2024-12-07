@@ -1,0 +1,14 @@
+name: "gcp-spot-termination-handler"
+
+image:
+  repository: ghcr.io/kloudlite/kloudlite/infrastructure-as-code/cmd/gcp-spot-node-terminator
+  tag: ""
+  pullPolicy: "IfNotPresent"
+
+# -- node selector for the spot termination handler, it should be running only on gcp spot instances
+nodeSelector:
+  kloudlite.io/node.is-spot: "true"
+
+# -- tolerations for the spot termination handler, it must be running only on gcp spot instances
+tolerations:
+  - operator: Exists

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: gcp-spot-termination-handler
+description: Helm Chart for installing/managing gcp spot node termination handler
+
+type: application
+version: "v1.1.3"
+appVersion: "v1.1.3"
