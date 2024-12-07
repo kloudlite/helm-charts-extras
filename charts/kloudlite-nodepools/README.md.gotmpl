@@ -1,0 +1,61 @@
+{{- $chartRepo := "kloudlite-extras" -}}
+{{- $chartName := .Name -}}
+
+{{ template "chart.header" . }}
+[{{$chartName}}](https://github.com/kloudlite.io/helm-charts/charts/{{$chartName}}) {{.Description}}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+## Get Repo Info
+
+```console
+helm repo add {{$chartRepo}} https://kloudlite.github.io/helm-charts-extras
+helm repo update {{$chartRepo}}
+```
+
+## Install Chart
+```console
+helm install [RELEASE_NAME] {{$chartRepo}}/{{$chartName}} --namespace [NAMESPACE]
+```
+
+_See [helm install](https://helm.sh/docs/helm/helm_install/) for command documentation._
+
+## Configuration
+
+```console
+helm show values {{$chartRepo}}/{{$chartName}}
+```
+
+{{ template "chart.valuesSection" . }}
+
+## Installing Nightly Releases
+
+To list all nightly versions (**NOTE**: nightly versions are suffixed by `-nightly`)
+
+```console
+helm search repo {{$chartRepo}}/{{$chartName}} --devel
+```
+
+To install
+```console
+helm install [RELEASE_NAME] {{$chartRepo}}/{{$chartName}} --version [NIGHTLY_VERSION] --namespace [NAMESPACE] --create-namespace
+```
+
+## Uninstall Chart
+
+```console
+helm uninstall [RELEASE_NAME] -n [NAMESPACE]
+```
+
+This removes all the Kubernetes components associated with the chart and deletes the release.
+
+_See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command documentation._
+
+## Upgrading Chart
+
+```console
+helm upgrade [RELEASE_NAME] {{$chartRepo}}/{{$chartName}}
+```
+
+_See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
+
