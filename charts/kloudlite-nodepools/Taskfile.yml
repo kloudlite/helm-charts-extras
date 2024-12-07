@@ -1,0 +1,15 @@
+version: 3
+
+tasks:
+  crds:
+    vars:
+      operatorsDir: ../../../operator
+    cmds:
+      - |+
+        mkdir -p ./crds
+        outDir=$(realpath ./crds)
+
+        pushd {{.operatorsDir}}
+        cp -v config/crd/bases/clusters.kloudlite.io_nodepools.yaml $outDir/
+        cp -v config/crd/bases/clusters.kloudlite.io_nodes.yaml $outDir/
+        popd

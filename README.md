@@ -2,14 +2,13 @@
 
 This repository contains a collection of Helm charts that are not part of the [official kloudlite Helm Charts](https://github.com/kloudlite/helm-charts) repository.
 
-[!NOTE] These charts are maintained by the kloudlite team, but kloudlite does not endorse or support using these charts.
+[!NOTE] These charts are used and maintained by the kloudlite team for internal purposes
 
 ## Available Charts
 
 | Chart | Description |
 | --- | --- |
 | [`kloudlite-nodepools`](./charts/kloudlite-nodepools) | Helm chart for the kloudlite nodepools |
-| [`kloudlite-autoscalers`](./charts/kloudlite-autoscalers) | Helm chart for the kloudlite autoscalers |
 
 ## Contributing
 
