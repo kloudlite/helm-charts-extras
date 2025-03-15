@@ -1,0 +1,29 @@
+csi:
+  install: true
+
+  storageType: "gp3"
+
+  controller:
+    nodeSelector: {}
+    tolerations:
+      - operator: Exists
+  daemonset:
+    nodeSelector: {}
+    tolerations:
+      - operator: Exists
+
+certManager:
+  install: true
+
+  nodeSelector: {}
+  tolerations: []
+
+  clusterIssuer:
+    create: true
+    name: cluster-issuer
+    acme:
+      email: "support@kloudlite.io"
+      server: "https://acme-v02.api.letsencrypt.org/directory"
+
+ingressNginx:
+  className: nginx
