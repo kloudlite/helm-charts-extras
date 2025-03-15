@@ -1,14 +1,14 @@
-{{- if (eq .Values.cloudprovider "aws") }}
-{{- if .Values.aws.ebs_csi_driver.enabled }}
-apiVersion: crds.kloudlite.io/v1
+{{- if .Values.csi.install }}
+apiVersion: plugin-helm-chart.kloudlite.github.com/v1
 kind: HelmChart
 metadata:
   name: aws-ebs-csi
   namespace: {{.Release.Namespace}}
 spec:
-  chartRepoURL: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
-  chartVersion: 2.22.0
-  chartName: aws-ebs-csi-driver
+  chart:
+    url: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+    name: aws-ebs-csi-driver
+    version: 2.22.0
 
   jobVars:
     tolerations:
@@ -46,7 +46,7 @@ spec:
       kubectl patch storageclass sc-ext4 -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     fi
 
-  values:
+  helmValues:
     customLabels:
       kloudlite.io/part-of: "{{.Chart.Name}}"
 
@@ -77,5 +77,4 @@ spec:
     node:
       nodeSelector: {{ .Values.csi.daemonset.nodeSelector | toJson }}
       tolerations: {{.Values.csi.daemonset.tolerations | toJson }}
-{{- end }}
 {{- end }}

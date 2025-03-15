@@ -47,11 +47,6 @@ spec:
         name: {{.Values.ingressNginx.className}}
         controllerValue: "k8s.io/{{ .Values.ingressNginx.className}}"
 
-      # {{- if .Values.nginxIngress.wildcardCert.enabled  }}
-      # extraArgs:
-      #   default-ssl-certificate: '{{.Values.nginxIngress.wildcardCert.secretNamespace}}/{{.Values.nginxIngress.wildcardCert.secretName}}'
-      # {{- end }}
-
       resources:
         requests:
           cpu: 100m

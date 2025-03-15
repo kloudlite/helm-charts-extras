@@ -5,15 +5,16 @@
 {{- $podLabels := .Values.certManager.podLabels | toJson }}
 {{- $certManagerChartVersion := "v1.16.2" }}
 
-apiVersion: crds.kloudlite.io/v1
+apiVersion: plugin-helm-chart.kloudlite.github.com/v1
 kind: HelmChart
 metadata:
   name: "cert-manager"
   namespace: {{.Release.Namespace}}
 spec:
-  chartRepoURL: https://charts.jetstack.io
-  chartName: cert-manager
-  chartVersion: {{$certManagerChartVersion}}
+  chart:
+    url: https://charts.jetstack.io
+    name: cert-manager
+    version: {{$certManagerChartVersion}}
 
   jobVars:
     backOffLimit: 1
@@ -26,31 +27,31 @@ spec:
     echo "installed cert-manager CRDs"
 
   postInstall: |+
-  {{- if .Values.certManager.clusterIssuer.create }}
-  cat <<EOF | kubectl apply -f -
-  apiVersion: cert-manager.io/v1
-  kind: ClusterIssuer
-  metadata:
-    name: {{.Values.certManager.clusterIssuer.name}}
-    annotations:
-      kloudlite.io/description: "created/managed by helm chart ({{.Chart.Name}})"
-  spec:
-    acme:
-      email: {{.Values.certManager.clusterIssuer.acme.email}}
-      privateKeySecretRef:
-        name: {{.Values.certManager.clusterIssuer.name}}
-      server: {{.Values.certManager.clusterIssuer.acme.server}}
-      solvers:
-        {{- $ingClass := .Values.ingressNginx.className }}
-        {{- if $ingClass }}
-        - http01:
-            ingress:
-              class: "{{$ingClass}}"
-        {{- end }}
-  EOF
-  {{- end }}
+    {{- if .Values.certManager.clusterIssuer.create }}
+    cat <<EOF | kubectl apply -f -
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: {{.Values.certManager.clusterIssuer.name}}
+      annotations:
+        kloudlite.io/description: "created/managed by helm chart ({{.Chart.Name}})"
+    spec:
+      acme:
+        email: {{.Values.certManager.clusterIssuer.acme.email}}
+        privateKeySecretRef:
+          name: {{.Values.certManager.clusterIssuer.name}}
+        server: {{.Values.certManager.clusterIssuer.acme.server}}
+        solvers:
+          {{- $ingClass := .Values.ingressNginx.className }}
+          {{- if $ingClass }}
+          - http01:
+              ingress:
+                class: "{{$ingClass}}"
+          {{- end }}
+    EOF
+    {{- end }}
 
-  values:
+  helmValues:
     # -- cert-manager args, forcing recursive nameservers used to be google and cloudflare
     # @ignored
     extraArgs:
