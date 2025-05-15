@@ -27,3 +27,8 @@ certManager:
 
 ingressNginx:
   className: nginx
+
+wildcardCert:
+  # for wildcard on `*.kloudlite.io`, host is `kloudlite.io`
+  host: ""
+  secretName: "wildcard-cert"

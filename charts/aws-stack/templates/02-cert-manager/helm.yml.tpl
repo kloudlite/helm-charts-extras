@@ -42,12 +42,37 @@ spec:
           name: {{.Values.certManager.clusterIssuer.name}}
         server: {{.Values.certManager.clusterIssuer.acme.server}}
         solvers:
+          - dns01:
+              route53: {}
+            selector:
+              dnsNames:
+                - "{{.Values.wildcardCert.host}}"
+                - "*.{{.Values.wildcardCert.host}}"
+
           {{- $ingClass := .Values.ingressNginx.className }}
           {{- if $ingClass }}
           - http01:
               ingress:
                 class: "{{$ingClass}}"
           {{- end }}
+    EOF
+    {{- end }}
+
+    {{- if .Values.wildcardCert.host }}
+    cat <<EOF | kubectl apply -f -
+    apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: {{.Values.wildcardCert.secretName}}
+      namespace: {{.Release.Namespace}}
+    spec:
+      secretName: {{.Values.wildcardCert.secretName}}
+      issuerRef:
+        name: {{.Values.certManager.clusterIssuer.name}}
+        kind: ClusterIssuer
+      commonName: "*.{{.Values.wildcardCert.host}}"
+      dnsNames:
+      - "*.{{.Values.wildcardCert.host}}"
     EOF
     {{- end }}
 
