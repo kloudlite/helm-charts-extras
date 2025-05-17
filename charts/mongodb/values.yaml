@@ -1,0 +1,7 @@
+pvc:
+  storageClass: "sc-xfs"
+  size: 5Gi
+
+image: "mongo:latest"
+nodeSelector: {}
+tolerations: []
